@@ -4,12 +4,8 @@ import board
 import neopixel
 
 app = Flask(__name__)
-
-pixel_pin = board.D18
-
 # The number of NeoPixels
 num_pixels = 50
-
 ORDER = neopixel.GRB
 
 

@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colour Controler</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Controller</title>
 </head>
 <body>
+  <h1>Color Controller</h1>
+  <input type="color" id="colorPicker" />
 
-    <input type="color" id="colorPicker">
+  <script>
+    const colorPicker = document.getElementById('colorPicker');
 
-    <script>
-        const picker = document.getElementById('colorPicker')
-        picker.addEventListener('input',function(){
-            const colourdataraw = picker.value;
-            fetch('/colours',{
-                method : 'POST',
-                headers: {
-                    'Content-Type' : 'application/json'
-                },
-                body: JSON.stringify({colourdata :colourdataraw})
-            }).then(response => response.json()).then(colourdataraw => console.log("Server responded", colourdataraw))
-        });
+    colorPicker.addEventListener('input', () => {
+      const colorValue = colorPicker.value;
 
-    </script>
-    
+      fetch('/colours', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ colourdata: colorValue }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Server responded:', data);
+      })
+      .catch(error => {
+        console.error('Error sending color:', error);
+      });
+    });
+  </script>
+
 </body>
 </html>
