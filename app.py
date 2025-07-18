@@ -20,6 +20,7 @@ pixels = neopixel.NeoPixel(
 @app.route('/')
 def index():
     pixels.fill((0, 0, 0))
+    pixels.show()
     return render_template('index.html')
 
 
@@ -31,6 +32,7 @@ def colours():
     colour = colour.lstrip('#')
     colour = tuple(int(colour[i:i+2], 16) for i in (0, 2, 4))
     pixels.fill(colour)
+    pixels.show()
     print(colour)
     return jsonify({"message":"colour recived"})
 
