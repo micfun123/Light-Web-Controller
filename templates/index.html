@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Live Color Picker with Off Lock</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colour Controller</title>
 </head>
 <body>
-    <h1>Pick a color</h1>
-    <input type="color" id="colorPicker">
-    <button id="offButton">Turn Off</button>
+  <h1>Colour Controller</h1>
+  <input type="color" id="colourPicker" />
+  <button id="offButton">Off</button>
 
-    <script>
-        let active = true;
-        const picker = document.getElementById('colorPicker');
-        const offButton = document.getElementById('offButton');
+  <script>
+    const colourPicker = document.getElementById('colourPicker');
+    const offButton = document.getElementById('offButton');
 
-        picker.addEventListener('input', function () {
-           const color = picker.value;
-            sendColor(color);
-        });
+    function sendColour(colourValue) {
+      fetch('/colours', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ colourdata: colourValue }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Server responded:', data);
+      })
+      .catch(error => {
+        console.error('Error sending colour:', error);
+      });
+    }
 
-        offButton.addEventListener('click', function () {
-            const black = "#000000";
-            picker.value = black;
-            sendColor(black);
-        });
+    colourPicker.addEventListener('input', () => {
+      sendColour(colourPicker.value);
+    });
 
-        function sendColor(color) {
-            fetch('/color', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ color: color })
-            })
-            .then(res => res.json())
-            .then(data => console.log("Server response:", data));
-        }
-    </script>
+    offButton.addEventListener('click', () => {
+      sendColour('#000000');
+    });
+  </script>
 </body>
 </html>
