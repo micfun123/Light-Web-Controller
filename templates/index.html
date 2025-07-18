@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colour Controler</title>
+</head>
+<body>
+
+    <input type="color" id="colorPicker">
+
+    <script>
+        const picker = document.getElementById('colorPicker')
+        picker.addEventListener('input',function(){
+            const colourdataraw = picker.value;
+            fetch('/colours',{
+                method : 'POST',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({colourdata :colourdataraw})
+            }).then(response => response.json()).then(colourdataraw => console.log("Server responded", colourdataraw))
+        });
+
+    </script>
+    
+</body>
+</html>
