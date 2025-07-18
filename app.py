@@ -10,17 +10,14 @@ pixel_pin = board.D18
 # The number of NeoPixels
 num_pixels = 50
 
-ORDER = neopixel.RGB
+ORDER = neopixel.GRB
 
-pixels = neopixel.NeoPixel(
-    pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER
-)
+
+pixels = neopixel.NeoPixel(board.D18, 30, brightness=0.5, auto_write=False, pixel_order=neopixel.RGB)
 
 
 @app.route('/')
 def index():
-    pixels.fill((0, 0, 0))
-    pixels.show()
     return render_template('index.html')
 
 
@@ -39,4 +36,4 @@ def colours():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',port = 8080,debug=False)
