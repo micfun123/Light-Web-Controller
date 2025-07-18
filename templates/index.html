@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Color Controller</title>
+    <meta charset="UTF-8">
+    <title>Live Color Picker with Off Lock</title>
 </head>
 <body>
-  <h1>Color Controller</h1>
-  <input type="color" id="colorPicker" />
+    <h1>Pick a color</h1>
+    <input type="color" id="colorPicker">
+    <button id="offButton">Turn Off</button>
 
-  <script>
-    const colorPicker = document.getElementById('colorPicker');
+    <script>
+        let active = true;
+        const picker = document.getElementById('colorPicker');
+        const offButton = document.getElementById('offButton');
 
-    colorPicker.addEventListener('input', () => {
-      const colorValue = colorPicker.value;
+        picker.addEventListener('input', function () {
+           const color = picker.value;
+            sendColor(color);
+        });
 
-      fetch('/colours', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ colourdata: colorValue }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Server responded:', data);
-      })
-      .catch(error => {
-        console.error('Error sending color:', error);
-      });
-    });
-  </script>
+        offButton.addEventListener('click', function () {
+            const black = "#000000";
+            picker.value = black;
+            sendColor(black);
+        });
 
+        function sendColor(color) {
+            fetch('/color', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ color: color })
+            })
+            .then(res => res.json())
+            .then(data => console.log("Server response:", data));
+        }
+    </script>
 </body>
 </html>
