@@ -5,7 +5,7 @@ import neopixel
 
 app = Flask(__name__)
 # The number of NeoPixels
-num_pixels = 50
+num_pixels = 200
 ORDER = neopixel.GRB
 
 
